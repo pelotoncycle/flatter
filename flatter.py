@@ -13,7 +13,7 @@ class _Stack(object):
 
         self.stack.append(obj)
         self.members.add(id(obj))
-        
+
     def pop(self):
         obj = self.stack.pop()
         self.members.remove(id(obj))
@@ -24,13 +24,19 @@ class _Stack(object):
     @property
     def head(self):
         return self.stack[-1]
-                            
+
 
 def flatten(seq, excluded_types = six.string_types):
+    if seq is None:
+        return
     if isinstance(seq, excluded_types):
-        raise TypeError(
-            ('%r is one of the excluded types to not flatten; cannot be the '
-             'root object') % (type(seq),))
+        seq = iter((seq,))
+    else:
+        try:
+            seq = iter(seq)
+        except TypeError:
+            seq = iter((seq, ))
+
     stack = _Stack()
     stack.push(iter(seq))
     while stack:
@@ -38,7 +44,7 @@ def flatten(seq, excluded_types = six.string_types):
             item = next(stack.head)
         except StopIteration:
             stack.pop()
-            continue 
+            continue
         if isinstance(item, excluded_types):
             yield item
         else:
@@ -46,9 +52,9 @@ def flatten(seq, excluded_types = six.string_types):
                 try:
                     if len(item) == 1 and item[0] is item:
                         yield item
-                        continue 
+                        continue
                 except TypeError:
-                    pass 
+                    pass
                 stack.push(iter(item))
             except TypeError:
                 yield item

@@ -23,7 +23,7 @@ class PyTest(TestCommand):
 
 setup(
     name='flatter',
-    version='0.0.2',
+    version='0.0.3',
     description="Sequence flattener",
     long_description='',
     url='https://github.com/pelotoncycle/flatter',

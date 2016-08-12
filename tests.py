@@ -33,7 +33,17 @@ class Test(TestCase):
             ['a', 'b', 'c'])
         
                          
-            
+    def test_singleton(self):
+        self.assertEquals(
+            list(flatten('abc')),
+            ['abc'])
 
+        self.assertEquals(
+            list(flatten(1)),
+            [1])
+
+        self.assertEquals(
+            list(flatten(None)),
+            [])
 
 
